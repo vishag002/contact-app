@@ -18,6 +18,18 @@ class ContactProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  //update
+  void updateContact(index, name, surname, phone) {
+    boxContact.putAt(
+        index,
+        Contact(
+          name: name,
+          surname: surname,
+          phone: phone,
+        ));
+    notifyListeners();
+  }
   //get
 
   /* getContact() {
