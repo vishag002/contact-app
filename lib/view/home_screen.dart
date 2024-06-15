@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:contact_application/controller/student_controller.dart';
 import 'package:contact_application/model/contact.dart';
+import 'package:contact_application/utilits/color_const/color_constant.dart';
+import 'package:contact_application/utilits/text_const/text_constant.dart';
 import 'package:contact_application/view/add_contact_screen.dart';
 import 'package:contact_application/view/contact_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,21 +21,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //int dataCount = boxContact.length;
-  bool dataFlag = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isLoaded();
-  }
-
-  void isLoaded() {
-    setState(() {
-      dataFlag = boxContact.isNotEmpty;
-    });
-  }
   //
+  final List newList = [];
+  void onSearch() {
+    if (textController.text.isEmpty) {
+    } else {
+      newList.add(Contact);
+    }
+  }
+
+  //
+  final textController = TextEditingController();
 
   void add() {}
   @override
@@ -41,61 +40,86 @@ class _HomeScreenState extends State<HomeScreen> {
     // final h1 = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber[50],
-        title: Text("Contacts"),
+        backgroundColor: ColorConstant.background,
+        title: Text(
+          "Contacts",
+          style: TextConstant.styleHeading,
+        ),
         actions: [
-          PopupMenuButton(
-              iconSize: 30,
-              iconColor: Colors.black,
-              itemBuilder: (context) => [
-                    PopupMenuItem(
-                        child: Row(
-                      children: [
-                        Text("Sort by"),
-                        Icon(
-                          Icons.arrow_right_sharp,
-                          size: 30,
-                        )
-                      ],
-                    )),
-                    PopupMenuItem(
-                        onTap: () {
-                          showDialog(
-                            // barrierColor: Colors.red,
+          Row(
+            children: [
+              AnimSearchBar(
+                color: Colors.transparent,
+                searchIconColor: Colors.white,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                rtl: true,
+                width: 300,
+                textController: textController,
+                onSuffixTap: () {
+                  setState(() {
+                    textController.clear();
+                  });
+                },
+                onSubmitted: (p0) {},
+              ),
+              PopupMenuButton(
+                  iconSize: 30,
+                  iconColor: ColorConstant.primary,
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            child: Row(
+                          children: [
+                            Text("Sort by"),
+                            Icon(
+                              Icons.arrow_right_sharp,
+                              size: 30,
+                            )
+                          ],
+                        )),
+                        PopupMenuItem(
+                            onTap: () {
+                              showDialog(
+                                // barrierColor: Colors.red,
 
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                  "Are You Sure to delete all the Contacts?"),
-                              actions: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          contactprovider.deleteAll();
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text("delete")),
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text("cancel"))
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                      "Are You Sure to delete all the Contacts?"),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        TextButton(
+                                            onPressed: () {
+                                              contactprovider.deleteAll();
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("delete")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("cancel"))
+                                      ],
+                                    )
                                   ],
-                                )
-                              ],
-                            ),
-                          );
-                          /* Container(
-                                    height: 100,
-                                    width: 150,
-                                    color: Colors.amber,
-                                  )); */
-                        },
-                        child: Text("Delete All"))
-                  ])
+                                ),
+                              );
+                              /* Container(
+                                        height: 100,
+                                        width: 150,
+                                        color: Colors.amber,
+                                      )); */
+                            },
+                            child: Text("Delete All"))
+                      ]),
+            ],
+          )
         ],
       ),
       body:
