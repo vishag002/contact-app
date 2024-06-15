@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'contact.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class Contact {
   Contact({
     required this.name,
