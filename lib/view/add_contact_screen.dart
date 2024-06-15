@@ -1,4 +1,5 @@
 import 'package:contact_application/controller/contact_provider.dart';
+import 'package:contact_application/utilits/color_const/color_constant.dart';
 import 'package:contact_application/utilits/text_const/text_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,8 @@ class _AddContactScreenState extends State<AddContactScreen> {
     //print(contactBox.values.toList());
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorConstant.background,
+        // foregroundColor: ColorConstant.primary,
         toolbarHeight: 80,
         leading: IconButton(
             onPressed: () {
@@ -45,22 +48,28 @@ class _AddContactScreenState extends State<AddContactScreen> {
             icon: Icon(
               Icons.arrow_back_ios_new_sharp,
               size: 30,
-              color: Colors.black,
+              color: Colors.grey.shade50,
             )),
-        title: Text("Add"),
+        title: Text(
+          "Add",
+          style: TextConstant.styleHeading,
+        ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Provider.of<ContactProvider>(context, listen: false).addContact(
-                  nameController.text,
-                  surnameController.text,
-                  phoneController.text);
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.check_sharp,
-              size: 30,
-              color: Colors.black,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: IconButton(
+              onPressed: () {
+                Provider.of<ContactProvider>(context, listen: false).addContact(
+                    nameController.text,
+                    surnameController.text,
+                    phoneController.text);
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.check_sharp,
+                size: 40,
+                color: Colors.greenAccent.shade700,
+              ),
             ),
           )
         ],
