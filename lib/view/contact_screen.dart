@@ -18,6 +18,15 @@ class _ContactScreenState extends State<ContactScreen> {
   final snameController = TextEditingController();
   final phoneController = TextEditingController();
   @override
+  void initState() {
+    super.initState();
+    Contact(
+        name: nameController.text,
+        surname: nameController.text,
+        phone: phoneController.text);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final contactProvider = Provider.of<ContactProvider>(context);
     return Scaffold(
@@ -62,17 +71,17 @@ class _ContactScreenState extends State<ContactScreen> {
                           contactProvider.delete(widget.index);
                           Navigator.pop(context);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.delete,
-                          color: Colors.black,
+                          color: Colors.blueGrey,
                           size: 30,
                         ),
                       ),
                       IconButton(
                         onPressed: () {
-                          final nameController = widget.contact.name;
-                          final unameController = widget.contact.name;
-                          final phoneController = widget.contact.name;
+                          nameController.text = widget.contact.name;
+                          snameController.text = widget.contact.surname;
+                          phoneController.text = widget.contact.phone;
                           showModalBottomSheet(
                             elevation: 0,
                             barrierColor: Colors.black,
@@ -110,7 +119,17 @@ class _ContactScreenState extends State<ContactScreen> {
                                               ),
                                             ),
                                             IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Provider.of<ContactProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateContact(
+                                                        widget.index,
+                                                        nameController.text,
+                                                        snameController.text,
+                                                        phoneController.text);
+                                                Navigator.pop(context);
+                                              },
                                               icon: Icon(
                                                 weight: 900,
                                                 Icons.check,
@@ -127,7 +146,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                       style: TextConstant.style1,
                                     ),
                                     TextFormField(
-                                      controller: nameController.toString(),
+                                      controller: nameController,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -142,6 +161,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                       style: TextConstant.style1,
                                     ),
                                     TextFormField(
+                                      controller: snameController,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -156,6 +176,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                       style: TextConstant.style1,
                                     ),
                                     TextFormField(
+                                      controller: phoneController,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -173,7 +194,7 @@ class _ContactScreenState extends State<ContactScreen> {
                         },
                         icon: Icon(
                           Icons.edit,
-                          color: Colors.black,
+                          color: Colors.blueGrey,
                           size: 30,
                         ),
                       )
@@ -187,11 +208,11 @@ class _ContactScreenState extends State<ContactScreen> {
               child: Text(
                 " ${widget.contact.name} ${widget.contact.surname}",
                 maxLines: 2,
-                style: TextConstant.style1,
+                style: TextConstant.styleContactName,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(25.0),
               child: Container(
                 height: 60,
                 width: double.infinity,
@@ -200,8 +221,8 @@ class _ContactScreenState extends State<ContactScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.contact.phone,
-                      style: TextConstant.style1,
+                      " 91+ ${widget.contact.phone}",
+                      style: TextConstant.style91,
                     ),
                     Row(
                       children: [
